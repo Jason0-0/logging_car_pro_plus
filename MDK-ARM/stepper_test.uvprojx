@@ -549,16 +549,6 @@
           <GroupName>Bsp</GroupName>
           <Files>
             <File>
-              <FileName>navigation_mudule.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Bsp\navigation_mudule.c</FilePath>
-            </File>
-            <File>
-              <FileName>navigation_mudule.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\Bsp\navigation_mudule.h</FilePath>
-            </File>
-            <File>
               <FileName>oled.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Bsp\oled.c</FilePath>
@@ -622,6 +612,16 @@
               <FileName>RMD_protocol.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Core\Bsp\RMD_L_Motor\RMD_protocol.h</FilePath>
+            </File>
+            <File>
+              <FileName>navigation_module.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Bsp\navigation_module.h</FilePath>
+            </File>
+            <File>
+              <FileName>navigation_module.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Bsp\navigation_module.c</FilePath>
             </File>
           </Files>
         </Group>

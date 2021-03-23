@@ -28,7 +28,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "navigation_module.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -99,6 +99,8 @@ int main(void)
   MX_USART6_UART_Init();
   MX_UART8_Init();
   /* USER CODE BEGIN 2 */
+  navi_init();  //初始化定位模块通信
+
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_ALL);	//舵机
 	HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);	//步进
 	//HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_3);	//步进
