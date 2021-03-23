@@ -1,5 +1,8 @@
 #include "stepper.h"
 
+#define SHIFT_PER_ROUND (2) //mm
+#define ANGLE_PER_STEP (1) //degree
+
 struct Stepper_t stepper={
     .htim=&htim5,
     .tim_ch=TIM_CHANNEL_2,
@@ -28,10 +31,5 @@ void stepper_setSpeed(struct Stepper_t* stepper,int speed)
     stepper->speed=speed;
     __HAL_TIM_SetAutoreload(stepper->htim,1e6/stepper->speed);
     __HAL_TIM_SetCompare(stepper->htim,stepper->tim_ch,__HAL_TIM_GetAutoreload(stepper->htim)/2);   //50%占空比
-    
-}
-
-void stepper_calibrate(struct Stepper_t* stepper)
-{
     
 }

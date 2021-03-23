@@ -53,7 +53,7 @@ void servo_step_run(struct Servo_t* servo,uint16_t set_angle,int speed)
         for(uint16_t i=servo->angle;i<=set_angle;i++)
         {
             servo_set_angle(servo,i);
-            HAL_Delay(speed);   //os_Delay(speed);
+            HAL_Delay(speed);   //osDelay(speed);
         }
     }
     else
@@ -61,7 +61,7 @@ void servo_step_run(struct Servo_t* servo,uint16_t set_angle,int speed)
         for(uint16_t i=servo->angle;i>=set_angle;i--)
         {
             servo_set_angle(servo,i);
-            HAL_Delay(speed);   //os_Delay(speed);
+            HAL_Delay(speed);   //osDelay(speed);
         }
     }
 }

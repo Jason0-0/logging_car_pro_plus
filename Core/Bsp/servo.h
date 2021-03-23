@@ -14,3 +14,5 @@ extern struct Servo_t servo_raise_l;
 extern struct Servo_t servo_platform;
 
 void servo_set_angle(struct Servo_t* servo,uint16_t angle);
+void servo_step_run(struct Servo_t* servo,uint16_t set_angle,int speed);
+uint16_t servo_get_angle(struct Servo_t* servo);

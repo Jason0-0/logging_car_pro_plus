@@ -9,10 +9,10 @@
   * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                             www.st.com/SLA0044
   *
   ******************************************************************************
   */
@@ -152,7 +152,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     PD13     ------> TIM4_CH2
     PD12     ------> TIM4_CH1
     */
-    GPIO_InitStruct.Pin = E_SEVERO_RAISE_L_Pin|F_SEVERO_RAISE_R_Pin|G_SEVERO_PLATFORM_Pin|H_SEVERO_GRAB_Pin;
+    GPIO_InitStruct.Pin = E_SERVO_RAISE_L_Pin|F_SERVO_RAISE_R_Pin|G_SERVO_PLATFORM_Pin|H_SERVO_GRAB_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
