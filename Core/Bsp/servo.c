@@ -1,4 +1,5 @@
 #include "servo.h"
+#include "FreeRTOS.h"
 #include "math.h"
 
 #define TIM_FREQ (1e6)

@@ -6,12 +6,7 @@
 
 #define NAVI_RX_LEN 28
 
-//不知道有没有'\0'啊orz
-const char navi_cali_cmd[4]={'A','C','T','R'};
-const char navi_clear_cmd[4]={'A','C','T','0'};
-const char navi_update_yaw_cmd[4]={'A','C','T','J'};
-
- struct Navi_Fdb_t
+typedef __packed struct __Navi_Fdb_t
 {
     float yaw;
     float pitch;
@@ -20,7 +15,7 @@ const char navi_update_yaw_cmd[4]={'A','C','T','J'};
     float y;
     float angular_velocity_yaw;
 
-};
+}Navi_Fdb_t;
 
 enum Navi_Tx_DataType_e
 {
@@ -34,16 +29,17 @@ enum Navi_Tx_DataType_e
   //...  
 };
 
-struct Navi_Rx_data_t
+typedef __packed struct __Navi_Rx_data_t
 {
     uint16_t header;
-    struct Navi_Fdb_t fdb;
+	Navi_Fdb_t fdb;
     uint16_t ender;
-};
+}Navi_Rx_data_t;
+
 union Navi_Rx_data_u
 {
     uint8_t rx[NAVI_RX_LEN];
-    struct Navi_Rx_data_t raw_data;
+    Navi_Rx_data_t raw_data;
 };
 
 
@@ -54,7 +50,7 @@ void Navi_UART_IDLE_Callback(UART_HandleTypeDef* huart);
 void navi_data_rx_handle(uint8_t rx[]);
 void navi_data_tx_handle(uint8_t tx[]);
 
-extern struct Navi_Fdb_t navi_fdb;
+extern Navi_Fdb_t navi_fdb;
 extern uint8_t navi_tx_data[];
 //extern uint8_t navi_rx_data[NAVI_RX_LEN];
 

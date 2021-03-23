@@ -101,13 +101,13 @@ int main(void)
   /* USER CODE BEGIN 2 */
   navi_init();  //初始化定位模块通信
 
-	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_ALL);	//舵机
-	HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);	//步进
-	//HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_3);	//步进
-	
-	HAL_GPIO_WritePin(J1_STEP_R_DIR_GPIO_Port,J1_STEP_R_DIR_Pin,GPIO_PIN_SET);	//
-	HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_SET);	//暂时用作5v输出
-	HAL_GPIO_WritePin(K1_STEP_R_EN_GPIO_Port,K1_STEP_R_EN_Pin,GPIO_PIN_SET);
+//	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_ALL);	//舵机
+//	HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);	//步进
+//	//HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_3);	//步进
+//	
+//	HAL_GPIO_WritePin(J1_STEP_R_DIR_GPIO_Port,J1_STEP_R_DIR_Pin,GPIO_PIN_SET);	//
+//	HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_SET);	//暂时用作5v输出
+//	HAL_GPIO_WritePin(K1_STEP_R_EN_GPIO_Port,K1_STEP_R_EN_Pin,GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -150,12 +150,11 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 6;
   RCC_OscInitStruct.PLL.PLLN = 160;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 4;

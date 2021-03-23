@@ -27,3 +27,4 @@ void MotorEncoderProcess(struct CAN_Motor *motor, uint8_t *RecvData);
 void Can_MultiCtrl_Tx1234(CAN_HandleTypeDef* hcanx,int16_t cm1_iq, int16_t cm2_iq, int16_t cm3_iq, int16_t cm4_iq);
 
 #endif // !CAN_MOTOR_H
+
