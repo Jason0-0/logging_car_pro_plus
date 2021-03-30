@@ -33,7 +33,7 @@ void arm_release(Arm_t* arm);
 void arm_turnToID(Arm_t* arm,uint8_t id);
 
 void arm_attach(Arm_t* arm,struct Servo_t* grab,struct Servo_t* wrist_l,struct Servo_t* wrist_r,struct Servo_t* platform,struct Stepper_t* lift);
-void arm_param_init(enum Grabber_Status_e grabber_status,uint16_t wrist_angle,uint16_t lift_height,uint8_t platform_id);
+void arm_param_init(Arm_t* arm,enum Grabber_Status_e grabber_status,uint16_t wrist_angle,uint16_t lift_height,uint8_t platform_id);
 
 
 
