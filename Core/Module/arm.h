@@ -21,6 +21,7 @@ typedef struct __Arm
   uint16_t wrist_angle;
   uint16_t lift_height;
   enum Grabber_Status_e grabber_status;
+  uint8_t id;
 }Arm_t;
 
 
