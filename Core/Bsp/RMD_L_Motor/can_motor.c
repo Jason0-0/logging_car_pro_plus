@@ -15,7 +15,31 @@ struct CAN_Motor can1_motor_4;
 
 CAN_TxHeaderTypeDef RMD_multiCtrl_txHeader={
     .DLC=0x08,
-    .StdId=CAN_ID_MULTI_MOTOR_TX,
+    .StdId=CAN_ID_MOTOR3,//CAN_ID_MULTI_MOTOR_TX,
+    .IDE=CAN_ID_STD,
+    .RTR=CAN_RTR_DATA
+};
+CAN_TxHeaderTypeDef RMD_motor1_txHeader={
+    .DLC=0x08,
+    .StdId=CAN_ID_MOTOR1,//CAN_ID_MULTI_MOTOR_TX,
+    .IDE=CAN_ID_STD,
+    .RTR=CAN_RTR_DATA
+};
+CAN_TxHeaderTypeDef RMD_motor2_txHeader={
+    .DLC=0x08,
+    .StdId=CAN_ID_MOTOR2,//CAN_ID_MULTI_MOTOR_TX,
+    .IDE=CAN_ID_STD,
+    .RTR=CAN_RTR_DATA
+};
+CAN_TxHeaderTypeDef RMD_motor3_txHeader={
+    .DLC=0x08,
+    .StdId=CAN_ID_MOTOR3,//CAN_ID_MULTI_MOTOR_TX,
+    .IDE=CAN_ID_STD,
+    .RTR=CAN_RTR_DATA
+};
+CAN_TxHeaderTypeDef RMD_motor4_txHeader={
+    .DLC=0x08,
+    .StdId=CAN_ID_MOTOR4,//CAN_ID_MULTI_MOTOR_TX,
     .IDE=CAN_ID_STD,
     .RTR=CAN_RTR_DATA
 };
@@ -76,15 +100,30 @@ void MotorEncoderProcess(struct CAN_Motor *motor, uint8_t *RecvData)
 void Can_MultiCtrl_Tx1234(CAN_HandleTypeDef* hcanx,int16_t cm1_iq, int16_t cm2_iq, int16_t cm3_iq, int16_t cm4_iq)
 {
     uint8_t tx_data[8];
-    tx_data[0] = (uint8_t)(cm1_iq >> 8);
-	tx_data[1] = (uint8_t)(cm1_iq & 0xFF);
-	tx_data[2] = (uint8_t)(cm2_iq >> 8);
-	tx_data[3] = (uint8_t)(cm2_iq & 0xFF);
-	tx_data[4] = (uint8_t)(cm3_iq >> 8);
-	tx_data[5] = (uint8_t)(cm3_iq & 0xFF);
-	tx_data[6] = (uint8_t)(cm4_iq >> 8);
-	tx_data[7] = (uint8_t)(cm4_iq & 0xFF);
+    tx_data[0]=0x00;//tx_data[0] = *(uint8_t*)(&cm1_iq);
+	tx_data[1] = *((uint8_t*)(&cm1_iq)+1);
+	tx_data[2] = *(uint8_t*)(&cm2_iq);
+	tx_data[3] = *((uint8_t*)(&cm2_iq)+1);
+	tx_data[4] = *(uint8_t*)(&cm3_iq);
+	tx_data[5] = *((uint8_t*)(&cm3_iq)+1);
+	tx_data[6] = *(uint8_t*)(&cm4_iq);
+	tx_data[7] = *((uint8_t*)(&cm4_iq)+1);
 
     uint32_t Can_TxMailbox;
 	HAL_CAN_AddTxMessage(hcanx,&RMD_multiCtrl_txHeader,tx_data, &Can_TxMailbox);
+}
+
+void Can_SingleCtrl_Tq_Tx(CAN_HandleTypeDef* hcanx,int id,int16_t tq)
+{
+	uint8_t tx_data[8]={0};
+	tx_data[0]=0xA1;
+	tx_data[4] = *(uint8_t*)(&tq);
+	tx_data[5] = *((uint8_t*)(&tq)+1);
+	
+	uint32_t Can_TxMailbox;
+	switch(id)
+	{
+		case 1:
+			
+	HAL_CAN_AddTxMessage(hcanx,header,tx_data, &Can_TxMailbox);
 }

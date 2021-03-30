@@ -6,6 +6,8 @@ struct Servo_t
     uint16_t tim_ch;
     uint16_t max_angle;
     uint16_t angle;
+	uint16_t max_set_angle;	//机械中允许的最大角度
+	uint16_t min_set_angle;
 };
 
 extern struct Servo_t servo_grab;

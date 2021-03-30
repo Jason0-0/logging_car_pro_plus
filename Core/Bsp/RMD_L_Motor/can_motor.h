@@ -19,8 +19,12 @@ struct CAN_Motor
 	
 	struct PID_t speed_pid;      //速度环
 	struct PID_t position_pid;   //位置环
+	
+	uint32_t id;
 
 };
+
+extern CAN_TxHeaderTypeDef RMD_multiCtrl_txHeader;
 
 //void RMD_get_fdb_data(struct RMD_TorqueCtrl_Rx* motor_fdb,uint8_t* can_rx_data);
 void MotorEncoderProcess(struct CAN_Motor *motor, uint8_t *RecvData);

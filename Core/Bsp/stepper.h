@@ -9,6 +9,7 @@ struct Stepper_t
     int speed;  //负即为反转
     TIM_HandleTypeDef* htim;
     uint32_t tim_ch;
+    uint8_t is_running;
 
 };
 

@@ -26,7 +26,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "can_motor.h"
+#include "chassis.h"
+#include "servo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,7 +48,11 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
+extern struct Servo_t servo_platform;
 
+extern CAN_TxHeaderTypeDef RMD_multiCtrl_txHeader;
+int64_t angle;
+uint32_t id;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -115,10 +121,23 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
+	angle=0;
+	id=0x100; 
+	int cnt=0;
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	 // __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_2,angle);
+	RMD_multiCtrl_txHeader.StdId=id;
+    Can_MultiCtrl_Tx1234(&hcan1,0,0,0,0);
+	servo_set_angle(&servo_platform,angle);
+	 cnt++;
+	  if(cnt%500==0)
+	  {
+		  id++;
+		  cnt=0;
+	  }
+    osDelay(4);
   }
   /* USER CODE END StartDefaultTask */
 }

@@ -1,3 +1,11 @@
+/**
+* servo.c
+* 舵机控制范围 0.5~2.5ms @50Hz
+**/
+
+
+
+
 #include "servo.h"
 #include "FreeRTOS.h"
 #include "math.h"
@@ -9,21 +17,27 @@ struct Servo_t servo_grab={
     .htim=&htim4,
     .tim_ch=TIM_CHANNEL_1,
     .max_angle=270,
-    .angle=135 //暂定
+    .angle=160, //暂定
+	.max_set_angle=170,
+	.min_set_angle=150
 };
 
 struct Servo_t servo_raise_l={
     .htim=&htim4,
     .tim_ch=TIM_CHANNEL_2,
     .max_angle=270,
-    .angle=135 //暂定
+    .angle=60, //暂定
+	.max_set_angle=250,
+	.min_set_angle=50
 };
 
 struct Servo_t servo_raise_r={
     .htim=&htim4,
     .tim_ch=TIM_CHANNEL_3,
     .max_angle=270,
-    .angle=135 //暂定
+    .angle=180, //暂定
+	.max_set_angle=0,
+	.min_set_angle=190
 };
 
 struct Servo_t servo_platform={
