@@ -32,6 +32,7 @@
 #include "can_motor.h"
 #include "servo.h"
 #include "bsp_can.h"
+#include "stepper.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,19 +54,32 @@
 /* USER CODE BEGIN PV */
 extern struct Servo_t servo_grab;
 extern struct Servo_t servo_platform;
+extern struct Stepper_t stepper;
+// uint8_t pwm_ok=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-
+// void out_pwm(uint32_t num)
+// {
+//   if(pwm_ok==1)
+//   {
+//     pwm_ok=0;
+// 	__HAL_TIM_SetCounter(&htim1,0);
+//     __HAL_TIM_SET_AUTORELOAD(&htim1,num-1);
+//     HAL_TIM_Base_Start_IT(&htim1);
+//     HAL_TIM_PWM_Start_IT(&htim5,TIM_CHANNEL_2);
+//   }
+// }
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 int stepper_freq=1000;
-int new_aar=100000;
+int new_aar;
+
 /* USER CODE END 0 */
 
 /**
@@ -106,18 +120,28 @@ int main(void)
   /* USER CODE BEGIN 2 */
   navi_init();  //初始化定位模块通信
   CanFilterInit(&hcan1);
+  stepper_init(&stepper); //步进电机初始化
 
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);	//舵机
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);	//舵机
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);	//舵机
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);	//舵机
 	//servo_set_angle(&servo_platform,0);
-	HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);	//步进
-	HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_3);	//步进
+	//HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);	//步进
+	// HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_3);	//步进
+
+  // HAL_TIM_Base_Start_IT(&htim1);
+  // HAL_TIM_PWM_Start_IT(&htim5,TIM_CHANNEL_2);
+  // __HAL_TIM_SET_AUTORELOAD(&htim1,0);
 	
-	HAL_GPIO_WritePin(J1_STEP_R_DIR_GPIO_Port,J1_STEP_R_DIR_Pin,GPIO_PIN_SET);	//
-	HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_SET);	//暂时用作5v输出
-	HAL_GPIO_WritePin(K1_STEP_R_EN_GPIO_Port,K1_STEP_R_EN_Pin,GPIO_PIN_SET);
+	// HAL_GPIO_WritePin(J1_STEP_R_DIR_GPIO_Port,J1_STEP_R_DIR_Pin,GPIO_PIN_SET);	//
+	// HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_SET);	//暂时用作5v输出
+	// HAL_GPIO_WritePin(K1_STEP_R_EN_GPIO_Port,K1_STEP_R_EN_Pin,GPIO_PIN_SET);
+	
+	// __HAL_TIM_SetAutoreload(&htim5,10000);
+	// __HAL_TIM_SetCompare(&htim5,TIM_CHANNEL_2,6000);
+	
+	// new_aar=500;
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -127,16 +151,31 @@ int main(void)
   osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
+  while(1)
 {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	  //Can_MultiCtrl_Tx1234(&hcan1,0,0,15,0);
-	  HAL_Delay(2);
+	
+	 
+	// if(pwm_ok)
+	// {
+	// 	HAL_Delay(2000);
+	// 	HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_RESET);
+	// 	out_pwm(new_aar);
+	// }
+		
+	// if(pwm_ok==1)
+	// {
+	// 	 HAL_Delay(1000);
+	// 	HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_SET);
+	// 	out_pwm(new_aar);
+	// }
 	  //if(stepper_freq!=0)
 	  //new_aar=250;
-	 __HAL_TIM_SetAutoreload(&htim5,new_aar);
-	  __HAL_TIM_SetCompare(&htim4,TIM_CHANNEL_2,2000);
+	 //__HAL_TIM_SetAutoreload(&htim5,new_aar);
+	 // __HAL_TIM_SetCompare(&htim5,TIM_CHANNEL_2,new_aar/2);
 	  //servo_set_angle(&servo_platform,0);
 	 
   }
@@ -207,7 +246,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+  if (htim==(&SLAVE_HTIM))
+  {
+    stepper_TIM_PeriodElapsedCallback(&SLAVE_HTIM,&stepper);
+	  
+  }
+  
   /* USER CODE END Callback 1 */
 }
 
