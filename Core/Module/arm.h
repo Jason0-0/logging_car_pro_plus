@@ -6,16 +6,16 @@
 
 enum Grabber_Status_e
 {
-  grabber_catch;
-  grabber_release;
-}
+  grabber_catch,
+  grabber_release,
+};
 
 typedef struct __Arm
 {
   struct Servo_t* grab;
   struct Servo_t* wrist_l;
   struct Servo_t* wrist_r;
-  struct Servo_t* platform
+  struct Servo_t* platform;
   struct Stepper_t* lift;
   
   uint16_t wrist_angle;

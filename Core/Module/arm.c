@@ -2,7 +2,7 @@
 
 Arm_t robot_arm;
 
-void arm_attach(Arm_t* arm,struct Servo_t* grab,struct Servo_t* wrist_l,struct Servo_t* wrist_r,struct Servo_t* platform,struct Stepper_t* litf)
+void arm_attach(Arm_t* arm,struct Servo_t* grab,struct Servo_t* wrist_l,struct Servo_t* wrist_r,struct Servo_t* platform,struct Stepper_t* lift)
 {
   	arm->grab=grab;
   	arm->wrist_l=wrist_l;
@@ -25,5 +25,26 @@ void arm_param_init(Arm_t* arm,enum Grabber_Status_e grabber_status,uint16_t wri
 		arm_grab(arm);
 	else
 		arm_release(arm);
+}
+
+void arm_turn_wrist(Arm_t* arm,uint16_t angle)
+{
+	
+}
+void arm_lift(Arm_t* arm,uint16_t height)
+{
+	
+}
+void arm_grab(Arm_t* arm)
+{
+	
+}
+void arm_release(Arm_t* arm)
+{
+	
+}
+void arm_turnToID(Arm_t* arm,uint8_t id)
+{
+	
 }
 	
