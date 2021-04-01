@@ -124,6 +124,17 @@ void Can_SingleCtrl_Tq_Tx(CAN_HandleTypeDef* hcanx,int id,int16_t tq)
 	switch(id)
 	{
 		case 1:
-			
-	HAL_CAN_AddTxMessage(hcanx,header,tx_data, &Can_TxMailbox);
+			HAL_CAN_AddTxMessage(hcanx,&RMD_motor1_txHeader,tx_data, &Can_TxMailbox);
+			break;
+		case 2:
+			HAL_CAN_AddTxMessage(hcanx,&RMD_motor2_txHeader,tx_data, &Can_TxMailbox);
+			break;
+		case 3:
+			HAL_CAN_AddTxMessage(hcanx,&RMD_motor3_txHeader,tx_data, &Can_TxMailbox);
+			break;
+		case 4:
+			HAL_CAN_AddTxMessage(hcanx,&RMD_motor4_txHeader,tx_data, &Can_TxMailbox);
+			break;
+	//HAL_CAN_AddTxMessage(hcanx,int header,tx_data, &Can_TxMailbox);
+	}
 }
