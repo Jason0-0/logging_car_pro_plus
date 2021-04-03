@@ -1,7 +1,8 @@
 #include "stepper.h"
 
 #define SHIFT_PER_ROUND (2) //mm
-#define ANGLE_PER_STEP (1) //degree
+#define ANGLE_PER_STEP (1.8f) //degree
+#define STEPS_PER_ROUND (200)
 
 
 
@@ -20,19 +21,6 @@ struct Stepper_t stepper={
     .is_running=0
 };
 
-//校准用
-// uint8_t stepper_start_cali_flag=0;
-// uint8_t stepper_reach_highest_flag=0;
-// uint8_t stepper_reach_lowset_flag=0;
-
-// struct Stepper_t stepper_r={
-//     .htim=&htim5,
-//     .tim_ch=TIM_CHANNEL_3,
-//     .height=0,
-//     .highest,
-//     .lowest=0,
-
-// }
 void stepper_init(struct Stepper_t* stepper)
 {
     //方向
