@@ -12,6 +12,16 @@ enum Grabber_Status_e
   grabber_catch,
   grabber_release,
 };
+
+enum Wrist_Pos_e
+{
+	init=175,	//随便取的
+	outside=170,
+	platform=5,
+	camera=90,
+	hold=120,	//随便取的
+	lining=180	//随便取的
+};
 typedef struct __graber
 {
   struct Servo_t* servo;
@@ -29,7 +39,9 @@ typedef struct __wrist
 
   uint16_t wrist_biasAngle; //90°
   uint16_t angle; //当前所处角度
-
+  
+  enum Wrist_Pos_e wrist_pos;
+  //uint16_t wrist_pos_angle[6];
 }Wrist_t;
 
 enum Platform_ID_e

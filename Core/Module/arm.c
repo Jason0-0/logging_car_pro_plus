@@ -1,12 +1,12 @@
 #include "arm.h"
 
 Arm_t robot_arm={
-	.grabber.grab_angle=150,
-	.grabber.release_angle=170,
+	.grabber.grab_angle=115,
+	.grabber.release_angle=135,
 	.wrist.wrist_biasAngle=90,
 	.wrist.biasAngle_l=135,
 	.wrist.biasAngle_r=135,
-	.platform.ID_angle={20,135,260}
+	.platform.ID_angle={25,132,245}
 };
 
 void arm_attach(Arm_t* arm,struct Servo_t* grab,struct Servo_t* wrist_l,struct Servo_t* wrist_r,struct Servo_t* platform,struct Stepper_t* lift)
@@ -26,7 +26,7 @@ void arm_param_init(Arm_t* arm,enum Grabber_Status_e grabber_status,uint16_t wri
 	arm->platform.id=platform_id;
 	
 	arm_turn_wrist(arm,arm->wrist.angle);
-	arm_lift(arm,arm->lift->height);
+	arm_lift(arm,arm->lift->height,2000);
 	arm_turnToID(arm,arm->platform.id);
 	if(arm->grabber.status==grabber_catch)
 		arm_catch(arm);
@@ -60,12 +60,12 @@ void arm_lift(Arm_t* arm,uint16_t height,uint16_t speed)
 	if(delta_h>0)
 	{
 		stepper_setSpeed(arm->lift,speed);
-		stepper_move(arm->lift,delta_h);	//暂时这么写
+		stepper_setSteps(arm->lift,delta_h);	//暂时这么写
 	}
 	else
 	{
 		stepper_setSpeed(arm->lift,-speed);
-		stepper_move(arm->lift,delta_h);
+		stepper_setSteps(arm->lift,delta_h);
 	}
 	
 }

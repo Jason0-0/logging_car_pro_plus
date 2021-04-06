@@ -33,6 +33,7 @@
 #include "servo.h"
 #include "bsp_can.h"
 #include "stepper.h"
+#include "arm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,8 +55,13 @@
 /* USER CODE BEGIN PV */
 extern struct Servo_t servo_grab;
 extern struct Servo_t servo_platform;
+extern struct Servo_t servo_raise_l;
+extern struct Servo_t  servo_raise_r;
 extern struct Stepper_t stepper;
 // uint8_t pwm_ok=0;
+extern Arm_t robot_arm;
+
+uint16_t grab_angle=135;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,8 +83,6 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int stepper_freq=1000;
-int new_aar;
 
 /* USER CODE END 0 */
 
@@ -120,13 +124,15 @@ int main(void)
   /* USER CODE BEGIN 2 */
   navi_init();  //初始化定位模块通信
   CanFilterInit(&hcan1);
+  arm_attach(&robot_arm,&servo_grab,&servo_raise_l,&servo_raise_r,&servo_platform,&stepper);
+  arm_param_init(&robot_arm,grabber_release,90,0,H);
+  
   stepper_init(&stepper); //步进电机初始化
-
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);	//舵机
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);	//舵机
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);	//舵机
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);	//舵机
-	//servo_set_angle(&servo_platform,0);
+	
 	//HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);	//步进
 	// HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_3);	//步进
 
@@ -145,39 +151,30 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
+  //osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  //MX_FREERTOS_Init();
   /* Start scheduler */
-  osKernelStart();
+  //osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
-  while(1)
-{
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
     /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-	  //Can_MultiCtrl_Tx1234(&hcan1,0,0,15,0);
 	
-	 
-	// if(pwm_ok)
-	// {
-	// 	HAL_Delay(2000);
-	// 	HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_RESET);
-	// 	out_pwm(new_aar);
-	// }
-		
-	// if(pwm_ok==1)
-	// {
-	// 	 HAL_Delay(1000);
-	// 	HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_SET);
-	// 	out_pwm(new_aar);
-	// }
-	  //if(stepper_freq!=0)
-	  //new_aar=250;
-	 //__HAL_TIM_SetAutoreload(&htim5,new_aar);
-	 // __HAL_TIM_SetCompare(&htim5,TIM_CHANNEL_2,new_aar/2);
-	  //servo_set_angle(&servo_platform,0);
-	 
+    /* USER CODE BEGIN 3 */
+//	  arm_catch(&robot_arm);
+//	  arm_turnToID(&robot_arm,I);
+	  //servo_set_angle(robot_arm.platform.servo,grab_angle);
+	  arm_turn_wrist(&robot_arm,grab_angle);
+//	  HAL_Delay(1000);
+//	  arm_release(&robot_arm);
+//	  arm_turnToID(&robot_arm,H);
+//	  HAL_Delay(2000);
+//	  arm_turnToID(&robot_arm,T);
+//	  HAL_Delay(1500);
+	  
   }
   /* USER CODE END 3 */
 }

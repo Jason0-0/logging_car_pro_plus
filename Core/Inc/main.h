@@ -74,8 +74,8 @@ void Error_Handler(void);
 #define F_SERVO_RAISE_R_GPIO_Port GPIOD
 #define G_SERVO_PLATFORM_Pin GPIO_PIN_13
 #define G_SERVO_PLATFORM_GPIO_Port GPIOD
-#define H_SERVO_GRAB_Pin GPIO_PIN_12
-#define H_SERVO_GRAB_GPIO_Port GPIOD
+#define H_SERVO_GRABER_Pin GPIO_PIN_12
+#define H_SERVO_GRABER_GPIO_Port GPIOD
 #define K2_STEP_L_EN_Pin GPIO_PIN_12
 #define K2_STEP_L_EN_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */

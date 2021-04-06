@@ -24,18 +24,18 @@ struct Servo_t servo_grab={
 
 struct Servo_t servo_raise_l={
     .htim=&htim4,
-    .tim_ch=TIM_CHANNEL_2,
+    .tim_ch=TIM_CHANNEL_4,
     .max_angle=270,
-    .angle=60, //暂定
-	.max_set_angle=250,
-	.min_set_angle=50
+    .angle=135, //暂定
+	.max_set_angle=235,
+	.min_set_angle=35
 };
 
 struct Servo_t servo_raise_r={
     .htim=&htim4,
     .tim_ch=TIM_CHANNEL_3,
     .max_angle=270,
-    .angle=180, //暂定
+    .angle=135, //暂定
 	.max_set_angle=0,
 	.min_set_angle=190
 };
