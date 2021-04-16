@@ -1,7 +1,7 @@
 #include "navigation_module.h"
 #include "string.h"
 
-#define NAVI_HUART huart8
+#define NAVI_HUART huart6
 
 //小端在前大端在后
 #define HEADER (0x0A0D)

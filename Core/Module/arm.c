@@ -26,7 +26,7 @@ void arm_param_init(Arm_t* arm,enum Grabber_Status_e grabber_status,uint16_t wri
 	arm->platform.id=platform_id;
 	
 	arm_turn_wrist(arm,arm->wrist.angle);
-	arm_lift(arm,arm->lift->height,2000);
+	//arm_lift(arm,arm->lift->height,2000);
 	arm_turnToID(arm,arm->platform.id);
 	if(arm->grabber.status==grabber_catch)
 		arm_catch(arm);
@@ -50,22 +50,26 @@ void arm_turn_wrist(Arm_t* arm,uint16_t angle)
 //速度用绝对值
 void arm_lift(Arm_t* arm,uint16_t height,uint16_t speed)
 {
-	if(height>arm->lift->highest)
-		height=arm->lift->highest;
-	else if (height<arm->lift->lowest)
-		height=arm->lift->lowest;
-	
-	int delta_h;	//高度差
-	delta_h=height-arm->lift->height;
-	if(delta_h>0)
+	if(arm->lift->is_running==0)
 	{
-		stepper_setSpeed(arm->lift,speed);
-		stepper_setSteps(arm->lift,delta_h);	//暂时这么写
-	}
-	else
-	{
-		stepper_setSpeed(arm->lift,-speed);
-		stepper_setSteps(arm->lift,delta_h);
+		if(height>arm->lift->highest)
+			height=arm->lift->highest;
+		else if (height<arm->lift->lowest)
+			height=arm->lift->lowest;
+		
+		int delta_h;	//高度差
+		delta_h=height-arm->lift->height;
+		if(delta_h>0)
+		{
+			stepper_setSpeed(arm->lift,speed);
+			stepper_setSteps(arm->lift,delta_h);	//暂时这么写
+		}
+		else if(delta_h<0)
+		{
+			stepper_setSpeed(arm->lift,-speed);
+			stepper_setSteps(arm->lift,delta_h);
+		}
+
 	}
 	
 }

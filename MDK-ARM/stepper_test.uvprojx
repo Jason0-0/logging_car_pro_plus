@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F427xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;             ../Drivers/STM32F4xx_HAL_Driver/Inc;             ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;             ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;             ../Drivers/CMSIS/Include;             ..\Core\Bsp;             ..\Core\Task;             ..\Core\Module;             ../Middlewares/Third_Party/FreeRTOS/Source/include;             ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;             ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;             ..\Core\Bsp\RMD_L_Motor;             ..\Core\Lib</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Core\Bsp;..\Core\Task;..\Core\Module;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;..\Core\Lib</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -599,21 +599,6 @@
               <FilePath>..\Core\Bsp\bsp_can.h</FilePath>
             </File>
             <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Bsp\RMD_L_Motor\can_motor.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\Bsp\RMD_L_Motor\can_motor.h</FilePath>
-            </File>
-            <File>
-              <FileName>RMD_protocol.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\Bsp\RMD_L_Motor\RMD_protocol.h</FilePath>
-            </File>
-            <File>
               <FileName>navigation_module.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Core\Bsp\navigation_module.h</FilePath>
@@ -622,6 +607,26 @@
               <FileName>navigation_module.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Bsp\navigation_module.c</FilePath>
+            </File>
+            <File>
+              <FileName>remote.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Bsp\remote.h</FilePath>
+            </File>
+            <File>
+              <FileName>remote.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Bsp\remote.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Bsp\motor.h</FilePath>
+            </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Bsp\motor.c</FilePath>
             </File>
           </Files>
         </Group>

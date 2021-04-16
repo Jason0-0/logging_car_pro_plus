@@ -1,4 +1,4 @@
-#include "can_motor.h"
+#include "motor.h"
 #include "bsp_can.h"
 #include "string.h"
 
@@ -13,11 +13,12 @@ struct CAN_Motor can1_motor_2;
 struct CAN_Motor can1_motor_3;
 struct CAN_Motor can1_motor_4;
 
+
 CAN_TxHeaderTypeDef RMD_multiCtrl_txHeader={
     .DLC=0x08,
-    .StdId=CAN_ID_MOTOR3,//CAN_ID_MULTI_MOTOR_TX,
-    .IDE=CAN_ID_STD,
-    .RTR=CAN_RTR_DATA
+	.StdId=0x200,
+	.IDE=CAN_ID_STD,
+	.RTR=CAN_RTR_DATA
 };
 CAN_TxHeaderTypeDef RMD_motor1_txHeader={
     .DLC=0x08,
@@ -84,13 +85,11 @@ void MotorParamInit(struct CAN_Motor *motor, \
 void MotorEncoderProcess(struct CAN_Motor *motor, uint8_t *RecvData)
 {
 
-	if (RecvData[0]!=RMD_MULTI_CTRL_CMD)
-        return;
-    else
-    {
-        motor->last_fdbPosition=motor->fdbPosition;
-        memcpy(motor,RecvData+1,8-1);
-    }
+	motor->last_fdbPosition = motor->fdbPosition;
+	motor->fdbPosition = RecvData[0]<<8|RecvData[1];
+	motor->fdbSpeed = RecvData[2]<<8|RecvData[3];
+	motor->electric_current = RecvData[4]<<8|RecvData[5];
+	motor->temperature = RecvData[6];
 
 	// motor->last_real_position = motor->real_position;
 	// motor->real_position = motor->fdbPosition + motor->round * 8192;	//位置环需要真实角度数据 
@@ -100,14 +99,14 @@ void MotorEncoderProcess(struct CAN_Motor *motor, uint8_t *RecvData)
 void Can_MultiCtrl_Tx1234(CAN_HandleTypeDef* hcanx,int16_t cm1_iq, int16_t cm2_iq, int16_t cm3_iq, int16_t cm4_iq)
 {
     uint8_t tx_data[8];
-    tx_data[0]=0x00;//tx_data[0] = *(uint8_t*)(&cm1_iq);
-	tx_data[1] = *((uint8_t*)(&cm1_iq)+1);
-	tx_data[2] = *(uint8_t*)(&cm2_iq);
-	tx_data[3] = *((uint8_t*)(&cm2_iq)+1);
-	tx_data[4] = *(uint8_t*)(&cm3_iq);
-	tx_data[5] = *((uint8_t*)(&cm3_iq)+1);
-	tx_data[6] = *(uint8_t*)(&cm4_iq);
-	tx_data[7] = *((uint8_t*)(&cm4_iq)+1);
+  tx_data[0] = (uint8_t)(cm1_iq >> 8);
+	tx_data[1] = (uint8_t)(cm1_iq & 0xFF);
+	tx_data[2] = (uint8_t)(cm2_iq >> 8);
+	tx_data[3] = (uint8_t)(cm2_iq & 0xFF);
+	tx_data[4] = (uint8_t)(cm3_iq >> 8);
+	tx_data[5] = (uint8_t)(cm3_iq & 0xFF);
+	tx_data[6] = (uint8_t)(cm4_iq >> 8);
+	tx_data[7] = (uint8_t)(cm4_iq & 0xFF);
 
     uint32_t Can_TxMailbox;
 	HAL_CAN_AddTxMessage(hcanx,&RMD_multiCtrl_txHeader,tx_data, &Can_TxMailbox);

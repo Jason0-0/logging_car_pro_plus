@@ -64,6 +64,8 @@ void Error_Handler(void);
 #define J1_STEP_R_DIR_GPIO_Port GPIOE
 #define K1_STEP_R_EN_Pin GPIO_PIN_6
 #define K1_STEP_R_EN_GPIO_Port GPIOE
+#define STEP2_L_DIR_Pin GPIO_PIN_9
+#define STEP2_L_DIR_GPIO_Port GPIOB
 #define B_STEP_L_PUL_Pin GPIO_PIN_12
 #define B_STEP_L_PUL_GPIO_Port GPIOH
 #define C_STEP_R_PUL_Pin GPIO_PIN_11
@@ -76,8 +78,12 @@ void Error_Handler(void);
 #define G_SERVO_PLATFORM_GPIO_Port GPIOD
 #define H_SERVO_GRABER_Pin GPIO_PIN_12
 #define H_SERVO_GRABER_GPIO_Port GPIOD
+#define STEP1_R_PUL_Pin GPIO_PIN_7
+#define STEP1_R_PUL_GPIO_Port GPIOA
 #define K2_STEP_L_EN_Pin GPIO_PIN_12
 #define K2_STEP_L_EN_GPIO_Port GPIOE
+#define STEP1_R_DIR_Pin GPIO_PIN_10
+#define STEP1_R_DIR_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

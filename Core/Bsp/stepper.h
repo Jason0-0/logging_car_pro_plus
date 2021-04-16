@@ -8,21 +8,23 @@
 
 enum Stepper_Dir_e
 {
-    backward=0,forward
+    backward=1,forward=0
 };
 
 struct Stepper_t
 {
-    uint16_t lowest;
-    uint16_t highest;
-    uint16_t height;
-    uint16_t speed; 
+    int16_t lowest;
+    int16_t highest;
+    int16_t height;
+    int16_t speed; 
     enum Stepper_Dir_e dir;
 
     TIM_HandleTypeDef* htim;
     uint32_t tim_ch;
-    GPIO_TypeDef* dir_port;
-    uint16_t dir_pin;
+    GPIO_TypeDef* dir_port1;
+    uint16_t dir_pin1;
+		GPIO_TypeDef* dir_port2;
+    uint16_t dir_pin2;
 
     uint8_t is_running;
 

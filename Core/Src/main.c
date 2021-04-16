@@ -29,11 +29,13 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "navigation_module.h"
-#include "can_motor.h"
+#include "motor.h"
 #include "servo.h"
 #include "bsp_can.h"
 #include "stepper.h"
 #include "arm.h"
+#include "chassis.h"
+#include "remote.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,8 +62,14 @@ extern struct Servo_t  servo_raise_r;
 extern struct Stepper_t stepper;
 // uint8_t pwm_ok=0;
 extern Arm_t robot_arm;
+extern struct Chassis_t chassis;
+extern struct DT7Remote_t Remote;
 
-uint16_t grab_angle=135;
+extern struct CAN_Motor can1_motor_1;
+extern struct CAN_Motor can1_motor_2;
+extern struct CAN_Motor can1_motor_3;
+extern struct CAN_Motor can1_motor_4;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,7 +84,7 @@ void MX_FREERTOS_Init(void);
 // 	__HAL_TIM_SetCounter(&htim1,0);
 //     __HAL_TIM_SET_AUTORELOAD(&htim1,num-1);
 //     HAL_TIM_Base_Start_IT(&htim1);
-//     HAL_TIM_PWM_Start_IT(&htim5,TIM_CHANNEL_2);
+//     HAL_TIM_PWM_Start_IT(&htim3,TIM_CHANNEL_2);
 //   }
 // }
 /* USER CODE END PFP */
@@ -91,6 +99,7 @@ void MX_FREERTOS_Init(void);
   * @retval int
   */
 int main(void)
+
 {
   /* USER CODE BEGIN 1 */
 	
@@ -121,11 +130,19 @@ int main(void)
   MX_USART6_UART_Init();
   MX_UART8_Init();
   MX_TIM1_Init();
+  MX_TIM3_Init();
+  MX_USART1_UART_Init();
+  MX_CAN2_Init();
   /* USER CODE BEGIN 2 */
+	Remote_init();
   navi_init();  //初始化定位模块通信
   CanFilterInit(&hcan1);
   arm_attach(&robot_arm,&servo_grab,&servo_raise_l,&servo_raise_r,&servo_platform,&stepper);
-  arm_param_init(&robot_arm,grabber_release,90,0,H);
+  //arm_param_init(&robot_arm,grabber_release,90,0,H);
+	MotorParamInit(&can1_motor_1,100,0,0,2400,5000,0,0,0,0,0);
+	MotorParamInit(&can1_motor_2,100,0,0,2400,5000,0,0,0,0,0);
+	MotorParamInit(&can1_motor_3,100,0,0,2400,5000,0,0,0,0,0);
+	MotorParamInit(&can1_motor_4,100,0,0,2400,5000,0,0,0,0,0);
   
   stepper_init(&stepper); //步进电机初始化
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);	//舵机
@@ -133,19 +150,20 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);	//舵机
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);	//舵机
 	
-	//HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);	//步进
+	
+//	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);	//步进
 	// HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_3);	//步进
 
   // HAL_TIM_Base_Start_IT(&htim1);
-  // HAL_TIM_PWM_Start_IT(&htim5,TIM_CHANNEL_2);
-  // __HAL_TIM_SET_AUTORELOAD(&htim1,0);
+	//HAL_TIM_PWM_Start_IT(&htim3,TIM_CHANNEL_2);
+  //__HAL_TIM_SET_AUTORELOAD(&htim1,0);
 	
-	// HAL_GPIO_WritePin(J1_STEP_R_DIR_GPIO_Port,J1_STEP_R_DIR_Pin,GPIO_PIN_SET);	//
+	//HAL_GPIO_WritePin(STEP2_L_DIR_GPIO_Port,STEP2_L_DIR_Pin,GPIO_PIN_RESET);	//
 	// HAL_GPIO_WritePin(J2_STEP_L_DIR_GPIO_Port,J2_STEP_L_DIR_Pin,GPIO_PIN_SET);	//暂时用作5v输出
 	// HAL_GPIO_WritePin(K1_STEP_R_EN_GPIO_Port,K1_STEP_R_EN_Pin,GPIO_PIN_SET);
 	
-	// __HAL_TIM_SetAutoreload(&htim5,10000);
-	// __HAL_TIM_SetCompare(&htim5,TIM_CHANNEL_2,6000);
+//	__HAL_TIM_SetAutoreload(&htim3,2000);
+//	__HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_2,6000);
 	
 	// new_aar=500;
   /* USER CODE END 2 */
@@ -159,22 +177,61 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   while (1)
   {
     /* USER CODE END WHILE */
-	
+
     /* USER CODE BEGIN 3 */
+//	  arm_turn_wrist(&robot_arm,(enum Wrist_Pos_e)outside);
+//	  HAL_Delay(1000);
 //	  arm_catch(&robot_arm);
+//	  HAL_Delay(700);
+//	  arm_turn_wrist(&robot_arm,(enum Wrist_Pos_e)hold);
 //	  arm_turnToID(&robot_arm,I);
-	  //servo_set_angle(robot_arm.platform.servo,grab_angle);
-	  arm_turn_wrist(&robot_arm,grab_angle);
+//	  HAL_Delay(200);
+//	  arm_turn_wrist(&robot_arm,(enum Wrist_Pos_e)platform);
 //	  HAL_Delay(1000);
 //	  arm_release(&robot_arm);
-//	  arm_turnToID(&robot_arm,H);
 //	  HAL_Delay(2000);
-//	  arm_turnToID(&robot_arm,T);
+//	  arm_turn_wrist(&robot_arm,(enum Wrist_Pos_e)camera);
+//	  HAL_Delay(800);
+//	  arm_turnToID(&robot_arm,H);
+//	  
+//	  //arm_turnToID(&robot_arm,T);
 //	  HAL_Delay(1500);
-	  
+//		stepper_setSpeed(&stepper,-2300);
+//		stepper_setSteps(&stepper,3000);
+//		HAL_Delay(5000);
+//		stepper_setSpeed(&stepper,1300);
+//		stepper_setSteps(&stepper,3000);
+//		HAL_Delay(5000);
+
+		
+	  if(Remote.inputmode==RC_Remote)
+	  {
+			//chassis_move(10,0);
+//			stepper_setSpeed(&stepper,2300);
+//			stepper_setSteps(&stepper,10000);
+//			HAL_Delay(2000);
+			arm_lift(&robot_arm,10000,2300);
+			
+			//CanTransmit_1234(&hcan1,-1000, 1000, 1000, -1000);
+
+		}
+		else if(Remote.inputmode==RC_Stop)
+		{
+			stepper_stop(&stepper);
+			//CanTransmit_1234(&hcan1,0, 0, 0, 0);
+			HAL_Delay(20);
+
+		}
+		else if(Remote.inputmode==RC_MouseKey)
+		{
+			stepper_setSpeed(&stepper,-2300);
+			stepper_setSteps(&stepper,10000);
+			HAL_Delay(20);
+		}
   }
   /* USER CODE END 3 */
 }

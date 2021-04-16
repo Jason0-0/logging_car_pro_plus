@@ -29,6 +29,9 @@ extern CAN_TxHeaderTypeDef RMD_multiCtrl_txHeader;
 //void RMD_get_fdb_data(struct RMD_TorqueCtrl_Rx* motor_fdb,uint8_t* can_rx_data);
 void MotorEncoderProcess(struct CAN_Motor *motor, uint8_t *RecvData);
 void Can_MultiCtrl_Tx1234(CAN_HandleTypeDef* hcanx,int16_t cm1_iq, int16_t cm2_iq, int16_t cm3_iq, int16_t cm4_iq);
-
+void Can_SingleCtrl_Tq_Tx(CAN_HandleTypeDef* hcanx,int id,int16_t tq);
+void MotorParamInit(struct CAN_Motor *motor, \
+		float speedP,float speedI,float speedD,float speedErrormax,float speedOutmax, \
+		float positionP,float positionI,float positionD,float positionErrormax,float positionOutmax);
 #endif // !CAN_MOTOR_H
 

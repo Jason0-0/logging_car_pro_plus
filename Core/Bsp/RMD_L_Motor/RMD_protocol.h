@@ -5,10 +5,10 @@
 
 // ID
 #define CAN_ID_MULTI_MOTOR_TX 0x280 
-#define CAN_ID_MOTOR1 0x141
-#define CAN_ID_MOTOR2 0x142
-#define CAN_ID_MOTOR3 0x143
-#define CAN_ID_MOTOR4 0x144
+#define CAN_ID_MOTOR1 0x201
+#define CAN_ID_MOTOR2 0x202
+#define CAN_ID_MOTOR3 0x203
+#define CAN_ID_MOTOR4 0x204
 
 //  Command
 #define RMD_MULTI_CTRL_CMD 0xA1
